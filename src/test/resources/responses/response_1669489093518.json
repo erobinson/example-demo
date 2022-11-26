@@ -1,0 +1,117 @@
+{
+  "stops": [
+    {
+      "stop_id": 51436,
+      "latitude": 44.856369,
+      "longitude": -93.226485,
+      "description": "Bloomington Central Station"
+    }
+  ],
+  "alerts": [],
+  "departures": [
+    {
+      "actual": true,
+      "trip_id": "22226529-AUG22-RAIL-Saturday-01",
+      "stop_id": 51436,
+      "departure_text": "5 Min",
+      "departure_time": 1669489320,
+      "description": "to Mpls-Target Field",
+      "route_id": "901",
+      "route_short_name": "Blue",
+      "direction_id": 0,
+      "direction_text": "NB",
+      "schedule_relationship": "Scheduled"
+    },
+    {
+      "actual": true,
+      "trip_id": "22226528-AUG22-RAIL-Saturday-01",
+      "stop_id": 51436,
+      "departure_text": "20 Min",
+      "departure_time": 1669490220,
+      "description": "to Mpls-Target Field",
+      "route_id": "901",
+      "route_short_name": "Blue",
+      "direction_id": 0,
+      "direction_text": "NB",
+      "schedule_relationship": "Scheduled"
+    },
+    {
+      "actual": false,
+      "trip_id": "22226530-AUG22-RAIL-Saturday-01",
+      "stop_id": 51436,
+      "departure_text": "1:32",
+      "departure_time": 1669491120,
+      "description": "to Mpls-Target Field",
+      "route_id": "901",
+      "route_short_name": "Blue",
+      "direction_id": 0,
+      "direction_text": "NB",
+      "schedule_relationship": "Scheduled"
+    },
+    {
+      "actual": false,
+      "trip_id": "22226531-AUG22-RAIL-Saturday-01",
+      "stop_id": 51436,
+      "departure_text": "1:47",
+      "departure_time": 1669492020,
+      "description": "to Mpls-Target Field",
+      "route_id": "901",
+      "route_short_name": "Blue",
+      "direction_id": 0,
+      "direction_text": "NB",
+      "schedule_relationship": "Scheduled"
+    },
+    {
+      "actual": false,
+      "trip_id": "22226532-AUG22-RAIL-Saturday-01",
+      "stop_id": 51436,
+      "departure_text": "2:02",
+      "departure_time": 1669492920,
+      "description": "to Mpls-Target Field",
+      "route_id": "901",
+      "route_short_name": "Blue",
+      "direction_id": 0,
+      "direction_text": "NB",
+      "schedule_relationship": "Scheduled"
+    },
+    {
+      "actual": false,
+      "trip_id": "22226533-AUG22-RAIL-Saturday-01",
+      "stop_id": 51436,
+      "departure_text": "2:17",
+      "departure_time": 1669493820,
+      "description": "to Mpls-Target Field",
+      "route_id": "901",
+      "route_short_name": "Blue",
+      "direction_id": 0,
+      "direction_text": "NB",
+      "schedule_relationship": "Scheduled"
+    },
+    {
+      "actual": false,
+      "trip_id": "22226534-AUG22-RAIL-Saturday-01",
+      "stop_id": 51436,
+      "departure_text": "2:32",
+      "departure_time": 1669494720,
+      "description": "to Mpls-Target Field",
+      "route_id": "901",
+      "route_short_name": "Blue",
+      "direction_id": 0,
+      "direction_text": "NB",
+      "schedule_relationship": "Scheduled"
+    },
+    {
+      "actual": false,
+      "trip_id": "22226535-AUG22-RAIL-Saturday-01",
+      "stop_id": 51436,
+      "departure_text": "2:47",
+      "departure_time": 1669495620,
+      "description": "to Mpls-Target Field",
+      "route_id": "901",
+      "route_short_name": "Blue",
+      "direction_id": 0,
+      "direction_text": "NB",
+      "schedule_relationship": "Scheduled"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+[
+  {
+    "trip_id": "22918683-AUG22-MVS-MTS-Saturday-02",
+    "direction_id": 1,
+    "direction": "SB",
+    "location_time": 1669489196,
+    "route_id": "227",
+    "latitude": 45.05641,
+    "longitude": -93.1448,
+    "bearing": 0,
+    "odometer": 0,
+    "speed": 0
+  }
+]

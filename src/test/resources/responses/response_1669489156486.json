@@ -1,0 +1,86 @@
+[
+  {
+    "trip_id": "22226526-AUG22-RAIL-Saturday-01",
+    "direction_id": 0,
+    "direction": "NB",
+    "location_time": 1669489078,
+    "route_id": "901",
+    "latitude": 44.96814,
+    "longitude": -93.250786,
+    "bearing": 0,
+    "odometer": 0,
+    "speed": 0
+  },
+  {
+    "trip_id": "22226527-AUG22-RAIL-Saturday-01",
+    "direction_id": 0,
+    "direction": "NB",
+    "location_time": 1669489078,
+    "route_id": "901",
+    "latitude": 44.89036,
+    "longitude": -93.19863,
+    "bearing": 0,
+    "odometer": 0,
+    "speed": 0
+  },
+  {
+    "trip_id": "22226528-AUG22-RAIL-Saturday-01",
+    "direction_id": 0,
+    "direction": "NB",
+    "location_time": 1669489078,
+    "route_id": "901",
+    "latitude": 44.854202,
+    "longitude": -93.23872,
+    "bearing": 0,
+    "odometer": 0,
+    "speed": 0
+  },
+  {
+    "trip_id": "22226529-AUG22-RAIL-Saturday-01",
+    "direction_id": 0,
+    "direction": "NB",
+    "location_time": 1669489078,
+    "route_id": "901",
+    "latitude": 44.85421,
+    "longitude": -93.23883,
+    "bearing": 0,
+    "odometer": 0,
+    "speed": 0
+  },
+  {
+    "trip_id": "22226592-AUG22-RAIL-Saturday-01",
+    "direction_id": 1,
+    "direction": "SB",
+    "location_time": 1669489078,
+    "route_id": "901",
+    "latitude": 44.894505,
+    "longitude": -93.197655,
+    "bearing": 0,
+    "odometer": 0,
+    "speed": 0
+  },
+  {
+    "trip_id": "22226593-AUG22-RAIL-Saturday-01",
+    "direction_id": 1,
+    "direction": "SB",
+    "location_time": 1669489078,
+    "route_id": "901",
+    "latitude": 44.98325,
+    "longitude": -93.278,
+    "bearing": 0,
+    "odometer": 0,
+    "speed": 0
+  },
+  {
+    "trip_id": "22226594-AUG22-RAIL-Saturday-01",
+    "direction_id": 1,
+    "direction": "SB",
+    "location_time": 1669489078,
+    "route_id": "901",
+    "latitude": 44.966606,
+    "longitude": -93.24983,
+    "bearing": 0,
+    "odometer": 0,
+    "speed": 0
+  }
+]
