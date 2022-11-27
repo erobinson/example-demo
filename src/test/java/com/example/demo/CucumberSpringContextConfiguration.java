@@ -1,13 +1,13 @@
-package com.arun.cucumber.hello.bdd;
+package com.example.demo;
 
-import com.arun.cucumber.hello.Application;
-import cucumber.api.java.Before;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootContextLoader;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.ContextConfiguration;
+
+import cucumber.api.java.Before;
 
 /**
  * Class to use spring application context while running cucumber

@@ -16,5 +16,5 @@ Or if you wanted to take the light rail from downtown to the Mall of America or 
 
 Leveraging Spring Boot to build out solution. Spring is well known amoung java developers and easy to understand for non-java developers. It is also widely used and thus has lots of documentation, robust integrations, many StackOverflow posts, and other resources to help developers use & expand this solution.
 
-To get started, check out the Cucumber <em>src/test/resources/features/*.feature</em> files to see the requirements, src/test/java/** code for the tests, and src/main/java/** code for the implementation.
+To get started, check out the Cucumber <em>src/test/resources/specifications/*.feature</em> files to see the requirements, src/test/java/** code for the tests, and src/main/java/** code for the implementation.
 
