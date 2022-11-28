@@ -21,7 +21,7 @@ public class Agency {
     private UUID primaryKey;
 
     @Column(name = "AGENCY_ID", nullable = false)
-    private String agencyId;
+    private Integer agencyId;
 
     @Column(name = "NAME", nullable = false)
     private String name;
@@ -32,6 +32,18 @@ public class Agency {
     public Agency(MetroAgency metroAgency) {
         name = metroAgency.getAgencyName();
         agencyId = metroAgency.getAgencyId();
+    }
+
+    public UUID getPrimaryKey() {
+        return primaryKey;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Integer getAgencyId() {
+        return agencyId;
     }
 
 }

@@ -16,5 +16,7 @@ Or if you wanted to take the light rail from downtown to the Mall of America or 
 
 Leveraging Spring Boot to build out solution. Spring is well known amoung java developers and easy to understand for non-java developers. It is also widely used and thus has lots of documentation, robust integrations, many StackOverflow posts, and other resources to help developers use & expand this solution.
 
+I could have built a simple command line tool like a python script. That would have solved the described problem, but I wanted to build something more robust where you could potentially add a UI, or scale the application or build out more features.
+
 To get started, check out the Cucumber <em>src/test/resources/specifications/*.feature</em> files to see the requirements, src/test/java/** code for the tests, and src/main/java/** code for the implementation.
 

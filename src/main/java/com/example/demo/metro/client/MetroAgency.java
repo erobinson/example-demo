@@ -7,16 +7,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class MetroAgency {
 
     @JsonProperty("agency_id")
-    private String agencyId;
+    private Integer agencyId;
     
     @JsonProperty("agency_name")
     private String agencyName;
 
-    public String getAgencyId() {
+    public Integer getAgencyId() {
         return agencyId;
     }
 
-    public void setAgencyId(String agencyId) {
+    public void setAgencyId(Integer agencyId) {
         this.agencyId = agencyId;
     }
 

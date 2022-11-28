@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+package com.example.demo;
 
 import java.util.List;
 
@@ -8,16 +8,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entities.Agency;
-import com.example.demo.service.AgencyService;
 
 @RestController
-public class AgencyController {
+public class ApplicationController {
 
     @Autowired
-    private AgencyService agencyService;
+    private ApplicationService appService;
     
     @GetMapping(value = "/agencies")
     public @ResponseBody List<Agency> getAllAgencies() {
-        return agencyService.getAllAgencies();
+        return appService.getAllAgencies();
     }
 }
