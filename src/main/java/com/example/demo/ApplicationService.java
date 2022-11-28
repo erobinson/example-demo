@@ -1,18 +1,21 @@
 package com.example.demo;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.demo.entities.Agency;
+import com.example.demo.entities.Direction;
 import com.example.demo.entities.Route;
 import com.example.demo.metro.client.MetroAgency;
+import com.example.demo.metro.client.MetroDirection;
 import com.example.demo.metro.client.MetroRoute;
 import com.example.demo.metro.client.MetroTransitClient;
 import com.example.demo.persist.AgencyRepository;
 import com.example.demo.persist.RouteRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 public class ApplicationService {
@@ -35,15 +38,14 @@ public class ApplicationService {
     private void loadAgencies() {
         if (agencyRepository.count() <= 0) {
             List<MetroAgency> metroAgencies = MetroTransitClient.getAgencies();
-            List<Agency> agencies = new ArrayList<>();
-            for (MetroAgency metroAgency : metroAgencies) {
-                agencies.add(new Agency(metroAgency));
-            }
+            List<Agency> agencies = metroAgencies.stream().
+                    map(metroAgency -> new Agency(metroAgency)).collect(Collectors.toList());
             agencyRepository.saveAll(agencies);
         }
     }
 
     public void deleteAll() {
+        routeRepository.deleteAll();
         agencyRepository.deleteAll();
     }
 
@@ -52,19 +54,27 @@ public class ApplicationService {
     }
 
     public List<Route> getAllRoutes() {
-        loadAgencies();
         loadRoutes();
         return routeRepository.findAll();
     }
 
     private void loadRoutes() {
+        List<Agency> agenciesList = getAllAgencies();
+        Map<Integer, Agency> agenciesMap = agenciesList.stream()
+                .collect(Collectors.toMap(Agency::getAgencyId, Function.identity()));
+
         if (routeRepository.count() <= 0) {
             List<MetroRoute> metroRoutes = MetroTransitClient.getRoutes();
-            List<Route> routes = new ArrayList<>();
-            for (MetroRoute metroRoute : metroRoutes) {
-                routes.add(new Route(metroRoute));
-            }
+            List<Route> routes = metroRoutes.stream().
+                    map(metroRoute -> new Route(metroRoute, agenciesMap)).collect(Collectors.toList());
             routeRepository.saveAll(routes);
         }
+    }
+
+    public List<Direction> getDirectionsForRoute(Route route) {
+        List<MetroDirection> metroDirections = MetroTransitClient.getDirectionsForRouteId(route.getRouteId());
+        List<Direction> directions = metroDirections.stream().
+                map(metroDirection -> new Direction(metroDirection)).collect(Collectors.toList());
+        return directions;
     }
 }

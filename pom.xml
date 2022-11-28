@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-        <!-- some of the newer spring boot versions run into issues with the cucumber tests -->
+        <!-- some newer spring boot versions run into issues with the cucumber tests -->
 		<version>2.3.12.RELEASE</version>
 		<relativePath />
 	</parent>
@@ -92,7 +92,6 @@
 						<configuration>
 							<projectName>cucumber-jvm-example</projectName>
 							<outputDirectory>${project.build.directory}/cucumber</outputDirectory>
-							<cucumberOutput>${project.build.directory}/cucumber</cucumberOutput>
 							<inputDirectory>${project.build.directory}/cucumber</inputDirectory>
 							<jsonFiles>
 								<param>cucumber-report.json</param>

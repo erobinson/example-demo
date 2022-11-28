@@ -1,15 +1,11 @@
 package com.example.demo.entities;
 
-import java.util.UUID;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-
+import com.example.demo.metro.client.MetroRoute;
 import org.hibernate.annotations.Type;
 
-import com.example.demo.metro.client.MetroRoute;
+import javax.persistence.*;
+import java.util.Map;
+import java.util.UUID;
 
 @Entity
 public class Route {
@@ -17,8 +13,8 @@ public class Route {
     public Route() {
     }
 
-    public Route(MetroRoute metroRoute) {
-        agencyId = metroRoute.getAgencyId();
+    public Route(MetroRoute metroRoute, Map<Integer, Agency> agencies) {
+        agency = agencies.get(metroRoute.getAgencyId());
         routeId = metroRoute.getRouteId();
         routeLabel = metroRoute.getRouteLabel();
     }
@@ -26,11 +22,12 @@ public class Route {
     @Id
     @Type(type = "org.hibernate.type.UUIDCharType")
     @GeneratedValue
-    @Column(name = "AGENCY_PRYMARY_KEY")
+    @Column(name = "ROUTE_PRIMARY_KEY")
     private UUID primaryKey;
 
-    @Column(name = "AGENCY_ID", nullable = false)
-    private Integer agencyId;
+    @ManyToOne
+    @JoinColumn(name="AGENCY_PRIMARY_KEY")
+    private Agency agency;
 
     @Column(name = "ROUTE_ID", nullable = false)
     private String routeId;
@@ -38,12 +35,12 @@ public class Route {
     @Column(name = "ROUTE_LABEL", nullable = false)
     private String routeLabel;
 
-    public Integer getAgencyId() {
-        return agencyId;
+    public Agency getAgency() {
+        return agency;
     }
 
-    public void setAgencyId(Integer agencyId) {
-        this.agencyId = agencyId;
+    public void setAgency(Agency agency) {
+        this.agency = agency;
     }
 
     public String getRouteId() {
