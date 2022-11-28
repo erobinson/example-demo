@@ -5,7 +5,8 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.1.5.RELEASE</version>
+        <!-- some of the newer spring boot versions run into issues with the cucumber tests -->
+		<version>2.3.12.RELEASE</version>
 		<relativePath />
 	</parent>
 
@@ -66,15 +67,6 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugin</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.0.0-M7</version>
-                <configuration>
-					<!-- ignoring test failures because they are caught by the cucumber report generation -->
-                    <testFailureIgnore>true</testFailureIgnore>
-                </configuration>
 			</plugin>
 
 			<plugin>
