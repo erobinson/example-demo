@@ -3,15 +3,13 @@ package com.example.demo;
 import com.example.demo.entities.Agency;
 import com.example.demo.entities.Direction;
 import com.example.demo.entities.Route;
-import com.example.demo.metro.client.MetroAgency;
-import com.example.demo.metro.client.MetroDirection;
-import com.example.demo.metro.client.MetroRoute;
-import com.example.demo.metro.client.MetroTransitClient;
+import com.example.demo.metro.client.*;
 import com.example.demo.persist.AgencyRepository;
 import com.example.demo.persist.RouteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.*;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -25,6 +23,7 @@ public class ApplicationService {
 
     @Autowired
     private RouteRepository routeRepository;
+
 
     public Long getAgencyCount() {
         return agencyRepository.count();
@@ -76,5 +75,61 @@ public class ApplicationService {
         List<Direction> directions = metroDirections.stream().
                 map(metroDirection -> new Direction(metroDirection)).collect(Collectors.toList());
         return directions;
+    }
+
+    public Integer getTimeToNextBus(String routeSubstr, String stopSubstr, String directionSubstr) throws Exception {
+        loadRoutes();
+        Route route = routeRepository.findByRouteLabelContains(routeSubstr);
+        if (route == null) {
+            throw new IllegalArgumentException("Route not found for route: " + routeSubstr);
+        }
+        Integer directionId = getDirectionBySubstring(route, directionSubstr);
+        String stopCode = getStepCodeBySubstring(route, directionId, stopSubstr);
+        MetroStopInformation stopInfo = MetroTransitClient.getStopInformation(route.getRouteId(), directionId, stopCode);
+        return getNextDepartureTime(stopInfo);
+    }
+
+    private Integer getNextDepartureTime(MetroStopInformation stopInfo) throws Exception {
+        if (stopInfo == null || stopInfo.getDepartures() == null || stopInfo.getDepartures().isEmpty()) {
+            throw new Exception("No stops found for desired route");
+        }
+        long midnight = getMidnightTimestamp();
+        long now = System.currentTimeMillis();
+        Long nextDepartureTime = null;
+        for (MetroDeparture departure : stopInfo.getDepartures()) {
+            boolean laterToday = departure.getDepartureTime() > now && departure.getDepartureTime() < midnight;
+            if ( laterToday && (departure.getDepartureTime() < nextDepartureTime || nextDepartureTime == null)) {
+                nextDepartureTime = departure.getDepartureTime();
+            }
+        }
+        Integer minutesToNextBus = (int) (now - nextDepartureTime.intValue()) / 60;
+
+        return minutesToNextBus;
+    }
+
+    private long getMidnightTimestamp() {
+        LocalDate today = LocalDate.now(ZoneId.of("US/Central"));
+        LocalDateTime todayMidnight = LocalDateTime.of(today, LocalTime.MIDNIGHT);
+        return todayMidnight.toEpochSecond(ZoneOffset.of("US/Central"));
+    }
+
+    private Integer getDirectionBySubstring(Route route, String directionSubstr) throws Exception {
+        List<MetroDirection> directions = MetroTransitClient.getDirectionsForRouteId(route.getRouteId());
+        for (MetroDirection direction : directions) {
+            if (direction.getDirectionName().toLowerCase().contains(directionSubstr.toLowerCase())) {
+                return direction.getDirectionId();
+            }
+        }
+        throw new IllegalArgumentException("Direction not found for route " + route.getRouteLabel() + " direction: " + directionSubstr);
+    }
+
+    private String getStepCodeBySubstring(Route route, Integer directionId, String stopSubstr) throws Exception {
+        List<MetroPlace> stops = MetroTransitClient.getPlacesForRouteAndDirection(route.getRouteId(), directionId);
+        for (MetroPlace stop : stops) {
+            if (stop.getPlaceCode().toLowerCase().contains(stopSubstr.toLowerCase())) {
+                return stop.getPlaceCode();
+            }
+        }
+        throw new IllegalArgumentException("Stop not found for for route " + route.getRouteLabel() + " direction " + directionId + " stop " + stopSubstr);
     }
 }

@@ -41,4 +41,22 @@ public class MetroTransitClient {
         logger.info("Successfully retrieved {} directions from metro transit.", directions.length);
         return Arrays.asList(directions);
     }
+
+    public static List<MetroPlace> getPlacesForRouteAndDirection(String routeId, Integer directionId) {
+        String url = METRO_TRANSIT_BASE_URL + "/stops/" + routeId + "/" + directionId;
+        logger.info("Getting stops from metro transit {}...", url);
+        ResponseEntity<MetroPlace[]> response = restTemplate.getForEntity(url, MetroPlace[].class);
+        MetroPlace[] stops = response.getBody();
+        logger.info("Successfully retrieved {} stops from metro transit.", stops.length);
+        return Arrays.asList(stops);
+    }
+
+    public static MetroStopInformation getStopInformation(String routeId, Integer directionId, String placeCode) {
+        String url = METRO_TRANSIT_BASE_URL + "/" + routeId + "/" + directionId + "/" + placeCode;
+        logger.info("Getting stop information from metro transit {}...", url);
+        ResponseEntity<MetroStopInformation> response = restTemplate.getForEntity(url, MetroStopInformation.class);
+        MetroStopInformation stopInformation = response.getBody();
+        logger.info("Successfully retrieved stop information from metro transit.");
+        return stopInformation;
+    }
 }
