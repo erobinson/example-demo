@@ -27,7 +27,7 @@ To get started, check out the Cucumber <em>src/test/resources/specifications/*.f
 
 ## Issues
 
-Some of the Metro Transit data/API seems to be conflicting. For example, [stop](https://svc.metrotransit.org/nextripv2/2875) "7th St N & Twins Way" with ID 2875, shows a departure by bus route 22 (see JSON below). However when pulling up the [stops](https://svc.metrotransit.org/nextripv2/stops/22/0) for route 22 Northbound, the list of stops doesn't include "7th St N & Twins Way".
+The Metro Transit data/API seems to be conflicting. For example, [stop](https://svc.metrotransit.org/nextripv2/2875) "7th St N & Twins Way" with ID 2875, shows a departure by bus route 22 (see JSON below). However, when pulling up the [stops](https://svc.metrotransit.org/nextripv2/stops/22/0) for route 22 Northbound, the list of stops doesn't include "7th St N & Twins Way".
 
 ```
     {
@@ -45,4 +45,5 @@ Some of the Metro Transit data/API seems to be conflicting. For example, [stop](
       "schedule_relationship": "Scheduled"
     }
 ```
-
+Their website uses some undocumented API calls which are missing from the swagger API documentation. 
+For example, API for [schedule routes](https://svc.metrotransit.org/schedule/routes) which contains the url parameter to get the route details [route 2 details](https://svc.metrotransit.org/schedule/routedetails/2) that include all the stop & schedule information are both not documented.
