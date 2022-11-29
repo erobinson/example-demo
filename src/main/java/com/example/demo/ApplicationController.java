@@ -18,12 +18,12 @@ public class ApplicationController {
     private ApplicationService appService;
 
     @GetMapping(value = "/agencies")
-    public @ResponseBody List<Agency> getAgencies() {
+    public @ResponseBody List<Agency> getAgencies() throws Exception {
         return appService.getAllAgencies();
     }
 
     @GetMapping(value = "/routes")
-    public @ResponseBody List<Route> getRoutes() {
+    public @ResponseBody List<Route> getRoutes() throws Exception {
         return appService.getAllRoutes();
     }
 

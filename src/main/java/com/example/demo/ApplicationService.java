@@ -31,12 +31,12 @@ public class ApplicationService {
         return agencyRepository.count();
     }
 
-    public List<Agency> getAllAgencies() {
+    public List<Agency> getAllAgencies() throws Exception {
         loadAgencies();
         return agencyRepository.findAll();
     }
 
-    private void loadAgencies() {
+    private void loadAgencies() throws Exception {
         if (agencyRepository.count() <= 0) {
             List<MetroAgency> metroAgencies = MetroTransitClient.getAgencies();
             List<Agency> agencies = metroAgencies.stream().
@@ -54,12 +54,12 @@ public class ApplicationService {
         return routeRepository.count();
     }
 
-    public List<Route> getAllRoutes() {
+    public List<Route> getAllRoutes() throws Exception {
         loadRoutes();
         return routeRepository.findAll();
     }
 
-    private void loadRoutes() {
+    private void loadRoutes() throws Exception {
         List<Agency> agenciesList = getAllAgencies();
         Map<Integer, Agency> agenciesMap = agenciesList.stream()
                 .collect(Collectors.toMap(Agency::getAgencyId, Function.identity()));
@@ -72,7 +72,7 @@ public class ApplicationService {
         }
     }
 
-    public List<Direction> getDirectionsForRoute(Route route) {
+    public List<Direction> getDirectionsForRoute(Route route) throws Exception {
         List<MetroDirection> metroDirections = MetroTransitClient.getDirectionsForRouteId(route.getRouteId());
         List<Direction> directions = metroDirections.stream().
                 map(metroDirection -> new Direction(metroDirection)).collect(Collectors.toList());
@@ -87,7 +87,7 @@ public class ApplicationService {
         return getNextDepartureTimeForStop(stopInfo);
     }
 
-    private Route getRouteBySubstring(String routeSubstr) {
+    private Route getRouteBySubstring(String routeSubstr) throws Exception {
         loadRoutes();
         List<Route> routes = routeRepository.findByRouteLabelContains(routeSubstr);
         if (routes == null || routes.isEmpty()) {

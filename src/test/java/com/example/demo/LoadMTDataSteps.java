@@ -42,23 +42,23 @@ public class LoadMTDataSteps {
 
 
     @Given("a random route from Metro Transit")
-    public void a_random_route_from_Metro_Transit() {
+    public void a_random_route_from_Metro_Transit() throws Exception {
         routes = appService.getAllRoutes();
         route = routes.get(new Random().nextInt(routes.size()));
     }
 
     @When("a user requests the agencies")
-    public void a_user_requests_to_get_the_agencies() {
+    public void a_user_requests_to_get_the_agencies() throws Exception {
         agencies = appService.getAllAgencies();
     }
 
     @When("a user requests the routes")
-    public void a_user_requests_the_routes() {
+    public void a_user_requests_the_routes() throws Exception {
         routes = appService.getAllRoutes();
         agencies = appService.getAllAgencies();
     }
     @When("the user requests the directions for that route")
-    public void the_user_requests_the_directions_for_that_route() {
+    public void the_user_requests_the_directions_for_that_route() throws Exception {
         directionsForRoute = appService.getDirectionsForRoute(route);
     }
 

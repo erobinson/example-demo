@@ -11,7 +11,7 @@ Feature: MetroTransit -> Time to next bus/train
     Examples:
       | route substring | stop name                       | direction |
       | METRO Blue Line | Target Field Station Platform 1 | north     |
-      | Route 22        | 7th St & Nicollet Station            | north     |
+      | Route 22        | 7th St & Nicollet Station       | north     |
 
   Scenario Outline: Get an exception when the stop is not valid
     Given a unique "<route substring>" to identify the bus/train route
