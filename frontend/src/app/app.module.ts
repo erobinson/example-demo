@@ -10,7 +10,11 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
-import {MatListModule} from '@angular/material/list';
+import { MatListModule } from '@angular/material/list';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+
+
 
 
 @NgModule({
@@ -26,7 +30,9 @@ import {MatListModule} from '@angular/material/list';
     MatToolbarModule,
     MatIconModule,
     HttpClientModule,
-    MatListModule
+    MatListModule,
+    MatStepperModule,
+    MatProgressBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

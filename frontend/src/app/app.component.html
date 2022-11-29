@@ -1,13 +1,41 @@
-<mat-toolbar color="primary">
-  <mat-icon svgIcon="bus-clock"></mat-icon>
-  <span>&nbsp; Next Departure Time</span>
+<mat-toolbar color="primary" style="display: flex">
+  <mat-icon svgIcon="bus-clock" style="padding-right: 10px"></mat-icon>
+  <span>Next Departure Time</span>
+  <span style="flex-grow: 1"></span>
+  <button mat-raised-button (click)="onReset(stepper)" color="accent">Reset</button>
 </mat-toolbar>
 
-<br/>
-<mat-list>
-  <mat-list-item *ngFor="let agency of agencies">
-    {{agency.agencyId}} - {{agency.name}}
-  </mat-list-item>
-</mat-list>
+<br />
+<mat-stepper linear="false" #stepper>
+  <mat-step>
+    <ng-template matStepLabel>Agency</ng-template>
+    <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+    <mat-selection-list *ngIf="!loading" multiple="false">
+      <mat-list-option *ngFor="let agency of agencies" (click)="onAgencyClick(stepper, agency)">
+        {{agency.name}}
+      </mat-list-option>
+    </mat-selection-list>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Route</ng-template>
+    <mat-selection-list *ngIf="!loading" multiple="false">
+      <mat-list-option *ngFor="let route of getRoutesForAgency()" (click)="onRouteClick(stepper, route)">
+        {{route.routeLabel}}
+      </mat-list-option>
+    </mat-selection-list>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Direction</ng-template>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Stop</ng-template>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Confirm</ng-template>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Results</ng-template>
+  </mat-step>
+</mat-stepper>
 
 <router-outlet></router-outlet>
