@@ -1,7 +1,7 @@
 # Build stage
 FROM maven:3.6.0-jdk-11-slim AS builder
-COPY src /home/app/src
-COPY pom.xml /home/app
+COPY backend/src /home/app/src
+COPY backend/pom.xml /home/app
 RUN mvn /home/app/pom.xml clean install
 
 # Run stage

@@ -1,2 +1,4 @@
 /target/
 /.idea/
+backend/src/test/resources/responses
+backend/target
