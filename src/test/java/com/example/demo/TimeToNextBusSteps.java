@@ -43,7 +43,7 @@ public class TimeToNextBusSteps {
     @When("the user requests the next bus time")
     public void the_user_requests_the_next_bus_time() throws Exception {
         try {
-            nextBusTime = appService.getTimeToNextBus(routeSubstr, stopSubstr, direction);
+            nextBusTime = appService.getNextDepartureTime(routeSubstr, stopSubstr, direction);
         } catch (Exception e) {
             exception = e;
         }

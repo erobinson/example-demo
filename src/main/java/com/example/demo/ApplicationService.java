@@ -3,6 +3,7 @@ package com.example.demo;
 import com.example.demo.entities.Agency;
 import com.example.demo.entities.Direction;
 import com.example.demo.entities.Route;
+import com.example.demo.entities.Stop;
 import com.example.demo.metro.client.*;
 import com.example.demo.persist.AgencyRepository;
 import com.example.demo.persist.RouteRepository;
@@ -78,12 +79,12 @@ public class ApplicationService {
         return directions;
     }
 
-    public Integer getTimeToNextBus(String routeSubstr, String stopSubstr, String directionSubstr) throws Exception {
+    public Integer getNextDepartureTime(String routeSubstr, String stopSubstr, String directionSubstr) throws Exception {
         Route route = getRouteBySubstring(routeSubstr);
         Integer directionId = getDirectionBySubstring(route, directionSubstr);
         String stopCode = getStepCodeBySubstring(route, directionId, stopSubstr);
         MetroStopInformation stopInfo = MetroTransitClient.getStopInformation(route.getRouteId(), directionId, stopCode);
-        return getNextDepartureTime(stopInfo);
+        return getNextDepartureTimeForStop(stopInfo);
     }
 
     private Route getRouteBySubstring(String routeSubstr) {
@@ -103,7 +104,7 @@ public class ApplicationService {
         return route;
     }
 
-    private Integer getNextDepartureTime(MetroStopInformation stopInfo) throws Exception {
+    private Integer getNextDepartureTimeForStop(MetroStopInformation stopInfo) throws Exception {
         if (stopInfo == null || stopInfo.getDepartures() == null || stopInfo.getDepartures().isEmpty()) {
             throw new Exception("No stops found for desired route");
         }
@@ -150,5 +151,13 @@ public class ApplicationService {
         }
         throw new IllegalArgumentException("Stop not found for for route '"
                 + route.getRouteLabel() + "' direction id " + directionId + " stop " + stopSubstr);
+    }
+
+    public List<Stop> getStopsForRoute(String routeSubstr, String directionSubstr) throws Exception {
+        Route route = getRouteBySubstring(routeSubstr);
+        Integer directionId = getDirectionBySubstring(route, directionSubstr);
+        List<MetroPlace> metroStops = MetroTransitClient.getPlacesForRouteAndDirection(route.getRouteId(), directionId);
+        List<Stop> stops = metroStops.stream().map(metroStop -> new Stop(metroStop)).collect(Collectors.toList());
+        return stops;
     }
 }

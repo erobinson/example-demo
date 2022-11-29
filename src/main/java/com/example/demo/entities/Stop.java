@@ -1,9 +1,19 @@
 package com.example.demo.entities;
 
+import com.example.demo.metro.client.MetroPlace;
+
 public class Stop {
 
     private String placeCode;
     private String description;
+
+    public Stop() {
+    }
+
+    public Stop(MetroPlace metroStop) {
+        placeCode = metroStop.getPlaceCode();
+        description = metroStop.getDescription();
+    }
 
 
     public String getPlaceCode() {
