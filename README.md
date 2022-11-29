@@ -25,3 +25,24 @@ I could have built a simple command line tool like a python script. That would h
 
 To get started, check out the Cucumber <em>src/test/resources/specifications/*.feature</em> files to see the requirements, src/test/java/** code for the tests, and src/main/java/** code for the implementation.
 
+## Issues
+
+Some of the Metro Transit data/API seems to be conflicting. For example, [stop](https://svc.metrotransit.org/nextripv2/2875) "7th St N & Twins Way" with ID 2875, shows a departure by bus route 22 (see JSON below). However when pulling up the [stops](https://svc.metrotransit.org/nextripv2/stops/22/0) for route 22 Northbound, the list of stops doesn't include "7th St N & Twins Way".
+
+```
+    {
+      "actual": true,
+      "trip_id": "22201337-AUG22-MVS-BUS-Weekday-01",
+      "stop_id": 2875,
+      "departure_text": "17 Min",
+      "departure_time": 1669693634,
+      "description": "Brklyn Ctr Tc / N Lyndale / Via Bryant",
+      "route_id": "22",
+      "route_short_name": "22",
+      "direction_id": 0,
+      "direction_text": "NB",
+      "terminal": "C",
+      "schedule_relationship": "Scheduled"
+    }
+```
+

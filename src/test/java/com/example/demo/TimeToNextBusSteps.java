@@ -7,6 +7,7 @@ import cucumber.api.java.en.When;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 public class TimeToNextBusSteps {
 
@@ -17,6 +18,7 @@ public class TimeToNextBusSteps {
     private String stopSubstr;
     private String direction;
     private Integer nextBusTime;
+    private Exception exception;
 
     @After("@next-bus")
     public void after() {
@@ -40,11 +42,22 @@ public class TimeToNextBusSteps {
 
     @When("the user requests the next bus time")
     public void the_user_requests_the_next_bus_time() throws Exception {
-        nextBusTime = appService.getTimeToNextBus(routeSubstr, stopSubstr, direction);
+        try {
+            nextBusTime = appService.getTimeToNextBus(routeSubstr, stopSubstr, direction);
+        } catch (Exception e) {
+            exception = e;
+        }
     }
 
     @Then("they get the number of minutes until the next bus\\/train")
     public void they_get_the_number_of_minutes_until_the_next_bus_train() {
+        assertNull(exception);
         assertNotNull(nextBusTime);
+    }
+
+    @Then("they get an empty response or an exception that the stop was invalid")
+    public void they_get_an_empty_response_or_an_exception_that_the_stop_was_invalid() {
+        assertNotNull(exception);
+        assertNull(nextBusTime);
     }
 }

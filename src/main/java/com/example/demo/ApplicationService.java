@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.time.*;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -78,15 +79,28 @@ public class ApplicationService {
     }
 
     public Integer getTimeToNextBus(String routeSubstr, String stopSubstr, String directionSubstr) throws Exception {
-        loadRoutes();
-        Route route = routeRepository.findByRouteLabelContains(routeSubstr);
-        if (route == null) {
-            throw new IllegalArgumentException("Route not found for route: " + routeSubstr);
-        }
+        Route route = getRouteBySubstring(routeSubstr);
         Integer directionId = getDirectionBySubstring(route, directionSubstr);
         String stopCode = getStepCodeBySubstring(route, directionId, stopSubstr);
         MetroStopInformation stopInfo = MetroTransitClient.getStopInformation(route.getRouteId(), directionId, stopCode);
         return getNextDepartureTime(stopInfo);
+    }
+
+    private Route getRouteBySubstring(String routeSubstr) {
+        loadRoutes();
+        List<Route> routes = routeRepository.findByRouteLabelContains(routeSubstr);
+        if (routes == null || routes.isEmpty()) {
+            throw new IllegalArgumentException("Route not found for route: " + routeSubstr);
+        }
+        Route route = routes.get(0);
+        if(routes.size() > 1) {
+            for(Route routeExactMatch : routes) {
+                if(routeExactMatch.getRouteLabel().equalsIgnoreCase(routeSubstr)) {
+                    route = routeExactMatch;
+                }
+            }
+        }
+        return route;
     }
 
     private Integer getNextDepartureTime(MetroStopInformation stopInfo) throws Exception {
@@ -94,23 +108,26 @@ public class ApplicationService {
             throw new Exception("No stops found for desired route");
         }
         long midnight = getMidnightTimestamp();
-        long now = System.currentTimeMillis();
+        long now = Instant.now().getEpochSecond();;
         Long nextDepartureTime = null;
         for (MetroDeparture departure : stopInfo.getDepartures()) {
             boolean laterToday = departure.getDepartureTime() > now && departure.getDepartureTime() < midnight;
-            if ( laterToday && (departure.getDepartureTime() < nextDepartureTime || nextDepartureTime == null)) {
+            if (laterToday && (nextDepartureTime == null || departure.getDepartureTime() < nextDepartureTime)) {
                 nextDepartureTime = departure.getDepartureTime();
             }
         }
-        Integer minutesToNextBus = (int) (now - nextDepartureTime.intValue()) / 60;
+        Integer minutesToNextBus = nextDepartureTime == null ? -1 : (int) (nextDepartureTime - now) / 60;
 
         return minutesToNextBus;
     }
 
     private long getMidnightTimestamp() {
-        LocalDate today = LocalDate.now(ZoneId.of("US/Central"));
+        Set<String> zones = ZoneId.getAvailableZoneIds();
+        ZoneId cst = ZoneId.of("America/Chicago");
+        LocalDate today = LocalDate.now(cst);
         LocalDateTime todayMidnight = LocalDateTime.of(today, LocalTime.MIDNIGHT);
-        return todayMidnight.toEpochSecond(ZoneOffset.of("US/Central"));
+        LocalDateTime tomorrowMidnight = todayMidnight.plusDays(1);
+        return tomorrowMidnight.atZone(cst).toInstant().getEpochSecond();
     }
 
     private Integer getDirectionBySubstring(Route route, String directionSubstr) throws Exception {
@@ -120,16 +137,18 @@ public class ApplicationService {
                 return direction.getDirectionId();
             }
         }
-        throw new IllegalArgumentException("Direction not found for route " + route.getRouteLabel() + " direction: " + directionSubstr);
+        throw new IllegalArgumentException("Direction not found for route "
+                + route.getRouteLabel() + " direction: " + directionSubstr);
     }
 
     private String getStepCodeBySubstring(Route route, Integer directionId, String stopSubstr) throws Exception {
         List<MetroPlace> stops = MetroTransitClient.getPlacesForRouteAndDirection(route.getRouteId(), directionId);
         for (MetroPlace stop : stops) {
-            if (stop.getPlaceCode().toLowerCase().contains(stopSubstr.toLowerCase())) {
+            if (stop.getDescription().toLowerCase().contains(stopSubstr.toLowerCase())) {
                 return stop.getPlaceCode();
             }
         }
-        throw new IllegalArgumentException("Stop not found for for route " + route.getRouteLabel() + " direction " + directionId + " stop " + stopSubstr);
+        throw new IllegalArgumentException("Stop not found for for route '"
+                + route.getRouteLabel() + "' direction id " + directionId + " stop " + stopSubstr);
     }
 }
