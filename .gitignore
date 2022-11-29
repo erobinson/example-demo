@@ -2,3 +2,4 @@
 /.idea/
 backend/src/test/resources/responses
 backend/target
+frontend/.vscode
