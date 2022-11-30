@@ -13,6 +13,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatListModule } from '@angular/material/list';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatInputModule } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -32,7 +34,9 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     HttpClientModule,
     MatListModule,
     MatStepperModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatInputModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

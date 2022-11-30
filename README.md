@@ -21,9 +21,42 @@ Or if you wanted to take the light rail from downtown to the Mall of America or 
 
 Leveraging Spring Boot to build out solution. Spring is well known amoung java developers and easy to understand for non-java developers. It is also widely used and thus has lots of documentation, robust integrations, many StackOverflow posts, and other resources to help developers use & expand this solution.
 
-I could have built a simple command line tool like a python script. That would have solved the described problem, but I wanted to build something more robust where you could potentially add a UI, or scale the application or build out more features.
+Could have built a simple command line tool like a python script. That would have solved the described problem, but wanted to build something more robust where you could potentially add more features and/or scale the application.
 
 To get started, check out the Cucumber <em>src/test/resources/specifications/*.feature</em> files to see the requirements, src/test/java/** code for the tests, and src/main/java/** code for the implementation.
+
+## Running
+
+There is a build script `build-and-run.sh` that builds the frontend and backend docker containers and then runs them. The only pre-requisite is having docker installed.
+
+## Development
+
+When devloping locally, you can build and run the backend spring boot application using maven. You must have JDK 11 installed. Then run 
+
+```
+cd backend
+./mvnw clean install
+
+# or to run the backend locally
+cd backend
+./mvnw spring-boot:run
+
+```
+
+Then you can use curl to get a list of [agencies](http://localhost:8080/agencies) in your browser. Or:
+ - [List of routes](http://localhost:8080/routes)
+ - [List of stops](http://localhost:8080/stops/Blue/north)
+ - [Next Departure Time](http://localhost:8080/next-departure-time/Blue/mall/north)
+
+The frontend requires Node v18.x.x installed. You can run it using the following commands. This assumes that you have the backend running via maven or the backend docker container.
+
+```
+cd frontend
+npm install
+npm start
+```
+
+[open localhost:4200](http://localhost:4200)
 
 ## Issues
 
