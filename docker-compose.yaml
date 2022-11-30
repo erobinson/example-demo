@@ -1,0 +1,16 @@
+version: '2'
+
+services:
+  angular:
+    restart: always
+    image: example-demo-frontend:latest
+    ports:
+      - "8081:80"
+    links:
+      - backend:backend
+
+  backend:
+    restart: always
+    image: example-demo-backend:latest
+    ports:
+      - "8080:8080"

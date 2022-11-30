@@ -1,6 +1,9 @@
 cd backend
-docker build -t example-demo .
+docker build -t example-demo-backend .
+cd ../frontend
+docker build -t example-demo-frontend .
 cd ..
 
-docker run -p 8080:8080 --rm -it example-demo:latest
+docker-compose up
+
 
