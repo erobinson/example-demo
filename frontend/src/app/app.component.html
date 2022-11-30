@@ -1,0 +1,88 @@
+<mat-toolbar color="primary" style="display: flex">
+  <mat-icon svgIcon="bus-clock" style="padding-right: 10px"></mat-icon>
+  <span>Next Departure Time</span>
+  <span style="flex-grow: 1"></span>
+  <button mat-raised-button (click)="onReset(stepper)" color="accent">Reset</button>
+</mat-toolbar>
+
+<br />
+<mat-stepper linear="false" #stepper>
+  <mat-step>
+    <ng-template matStepLabel>Agency</ng-template>
+    <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+    <mat-selection-list *ngIf="!loading" multiple="false">
+      <mat-list-option *ngFor="let agency of agencies" (click)="onAgencyClick(stepper, agency)">
+        {{agency.name}}
+      </mat-list-option>
+    </mat-selection-list>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Route</ng-template>
+    <mat-selection-list *ngIf="!loading" multiple="false">
+      <mat-list-option *ngFor="let route of getRoutesForAgency()" (click)="onRouteClick(stepper, route)">
+        {{route.routeLabel}}
+      </mat-list-option>
+    </mat-selection-list>
+    <div *ngIf="getRoutesForAgency().length <= 0">
+      No routes found for agency {{agencySelected?.name}}.
+    </div>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Direction</ng-template>
+    <mat-selection-list multiple="false">
+      <mat-list-option *ngFor="let direction of directions" (click)="onDirectionClick(stepper, direction)">
+        {{direction}}
+      </mat-list-option>
+    </mat-selection-list>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Stop</ng-template>
+    <mat-selection-list *ngIf="!loadingStops && stopsForRoute.length > 0" multiple="false">
+      <mat-list-option *ngFor="let stop of stopsForRoute" (click)="onStopClick(stepper, stop)">
+        {{stop.placeCode}} - {{stop.description}}
+      </mat-list-option>
+    </mat-selection-list>
+    <mat-progress-bar mode="indeterminate" *ngIf="loadingStops"></mat-progress-bar>
+    <div *ngIf="!loadingStops && stopsForRoute.length <=0">
+      Sorry, no stops found for selected route and direction.
+      <br/>
+      <button mat-raised-button (click)="onReset(stepper)" color="accent">Reset</button>
+    </div>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Confirm</ng-template>
+    <form>
+      <mat-form-field style="margin: 10px">
+        <mat-label>Route</mat-label>
+        <input matInput placeholder="Route substring" [(ngModel)]="routeSubstr" name="route">
+        <mat-hint>Can change the route to a unique substring.</mat-hint>
+      </mat-form-field>
+      <mat-form-field style="margin: 10px">
+        <mat-label>Direction (readonly)</mat-label>
+        <input matInput placeholder="Direction" [(ngModel)]="directionSelected" readonly name="direction">
+        <mat-hint>Direction can only be North, South, East, or West.</mat-hint>
+      </mat-form-field>
+      <mat-form-field style="margin: 10px">
+        <mat-label>Stop</mat-label>
+        <input matInput placeholder="Stop substring" [(ngModel)]="stopSubstr" name="stop">
+        <mat-hint>Can change the stop to a unique substring.</mat-hint>
+      </mat-form-field>
+    </form>
+    <br/>
+    <br/>
+    <button mat-raised-button (click)="onReset(stepper)" color="accent" style="margin: 10px">Reset</button>
+    <button mat-raised-button color="primary" (click)="onSubmit(stepper)" style="margin: 10px">Next Departure Time</button>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Results</ng-template>
+    <mat-progress-bar mode="indeterminate" *ngIf="loadingDeparture"></mat-progress-bar>
+    <div *ngIf="!loadingDeparture">
+      <p *ngIf="nextDepartureTime && nextDepartureTime > 0">The next bus/train for {{routeSubstr}} will leave in {{nextDepartureTime}} minutes from {{stopSubstr}}.</p>
+      <p *ngIf="!nextDepartureTime || nextDepartureTime < 0">The last bus/train of the day has already left. Or no bus/train could be found.</p>
+    </div>
+    <br/>
+    <button mat-raised-button (click)="onReset(stepper)" color="accent">Reset</button>
+  </mat-step>
+</mat-stepper>
+
+<router-outlet></router-outlet>
